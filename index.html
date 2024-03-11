@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/3408/3408506.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Do John</title>
+    <style>
+
+        @font-face {
+            font-family: plr;
+            src: url(LTSuperior-ExtraBold.otf);
+        }
+
+        @font-face {
+    font-family: isu;
+    src: url(Retron2000.ttf);
+}
+
+        body {
+            font-family: plr;
+            text-align: center;
+            background-image: url(https://pbs.twimg.com/media/E_BQPU5XsAYksfg.jpg:large);
+            background-repeat: no-repeat;
+            background-size: cover;
+            
+        }
+
+        .quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        #pergunta {
+          font-size: 24px;
+          margin-bottom: 20px;
+        }
+
+        #opcoes {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            font-family: isu;
+        }
+
+        .correto {
+            background-color: #8bc34a;
+        }
+
+        .incorreto {
+            background-color: #ff5722;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <audio autoplay loop>
+        <source src="Show do Milhão - Tema de Abertura (Completo).mp3" type="audio/mp3">
+    </audio> 
+
+    <div class="quiz-container">
+        <h1>Quiz de perguntas e respostas</h1>
+        <div id="pergunta"></div>
+        <div id="opcoes"></div>
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        const perguntas = [
+            {
+                pergunta: "Qual é a Moeda mais cara do mundo?",
+                opcoes: ["Dolar", "Real", "Dinar do Kuwait", "Euro"],
+                resposta: "Dinar do Kuwait"
+            },
+
+            {
+                pergunta: "qual é a empresa que SO TRABALHA com jogos para pc (ou seus lançamentos são primeiros pro pc)",
+                opcoes: ["Steam", "Playstation", "Xbox", "Nintendo"],
+                resposta: "Steam"
+            },
+
+            {
+                pergunta: "Qual Foi o maior Rival da nintendo nos anos 90?",
+                opcoes: ["Atari", "Sega", "nenhum", "os computadores"],
+                resposta: "Sega"
+            },
+            
+            {
+                pergunta: "qual o jogo que revolucionou os jogos 3D?",
+                opcoes: ["Sonic Adventure 1", "The legend of zelda ocarina of time", "Super Mario 64", "Half life"],
+                resposta: "Super Mario 64"
+            },
+           
+            {
+                pergunta: "Qual O Jogo Favorito Do Criador do site?",
+                opcoes: ["Sonic", "Freedom Planet", "Team Fortress 2", "Unreal Tornamnet 1999"],
+                resposta: "Team Fortress 2"
+            },
+
+        ];
+        const perguntaElemento = document.getElementById("pergunta");
+        const opcoesElemento = document.getElementById("opcoes");
+        const resultadoElemento = document.getElementById("resultado");
+
+        let indicePerguntaAtual = 0;
+
+        function carregarPergunta() {
+            const perguntaAtual = perguntas[indicePerguntaAtual];
+            perguntaElemento.textContent = perguntaAtual.pergunta;
+
+            opcoesElemento.innerHTML = "";
+            perguntaAtual.opcoes.forEach(opcao => {
+                const botao = document.createElement("button");
+                botao.textContent = opcao;
+                botao.addEventListener("click", () => verificarResposta(opcao));
+                opcoesElemento.appendChild(botao);
+
+            });
+        }
+
+        function verificarResposta(respostaSelecionada) {
+            const perguntaAtual = perguntas[indicePerguntaAtual];
+            if (respostaSelecionada === perguntaAtual.resposta) {
+                resultadoElemento.textContent = "Resposta correta!";
+                resultadoElemento.className = "correto";
+            } else {
+                resultadoElemento.textContent = "Resposta incorreta. A resposta correta é: " + perguntaAtual.resposta;
+                resultadoElemento.className = "incorreto";
+            }
+
+            // AVANÇA PARA PRÓXIMA PERGUNTA OU FINALIZA O QUIZ
+
+            indicePerguntaAtual++;
+            if (indicePerguntaAtual < perguntas.length) {
+                setTimeout(carregarPergunta, 2000);
+                //carrega proxima pergunta apos 2 segundos
+            } else {
+                resultadoElemento.textContent = "Quiz concluído!";
+                resultadoElemento.className = "";
+            }
+        }
+
+        //carrega a primeira pergunta quando a página carrega
+
+        carregarPergunta();
+
+    </script>
+
+</body>
+
+</html>
